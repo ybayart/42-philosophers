@@ -22,8 +22,7 @@ void	*thread_do(void *arg)
 	sem_wait(g_data.forks);
 	msg(gettime(), act, " has taken a fork\n", 18);
 	sem_wait(g_data.forks);
-	time = gettime();
-	msg(time, act, " has taken a fork\n", 18);
+	msg((time = gettime()), act, " has taken a fork\n", 18);
 	sem_post(g_data.lock);
 	g_data.philo[act].last_eat = time;
 	msg(time, act, " is eating\n", 11);
@@ -76,9 +75,7 @@ void	*thread(void *arg)
 	(void)arg;
 	i = 0;
 	while (i < g_data.nb)
-	{
-		g_data.philo[i].pid = fork();
-		if (g_data.philo[i].pid == 0)
+		if ((g_data.philo[i].pid = fork()) == 0)
 		{
 			pthread_create(&g_data.thread, NULL, thread_do, (void*)&i);
 			while (1)
@@ -87,7 +84,6 @@ void	*thread(void *arg)
 		}
 		else
 			i++;
-	}
 	i = -1;
 	while (++i < g_data.nb)
 	{
