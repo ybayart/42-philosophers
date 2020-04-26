@@ -12,6 +12,23 @@
 
 #include "philo.h"
 
+char	init_parse(int argc, char **argv)
+{
+	int		i;
+
+	i = 0;
+	while (++i < argc)
+		if (ft_str_is_numeric(argv[i]) == 0)
+			return (0);
+	g_data.nb = ft_atoi(argv[1]);
+	g_data.time_die = ft_atoi(argv[2]);
+	g_data.time_eat = ft_atoi(argv[3]);
+	g_data.time_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		g_data.must_eat = ft_atoi(argv[5]);
+	return (1);
+}
+
 int		init_sem(void)
 {
 	sem_unlink("forks");
@@ -35,14 +52,8 @@ int		init(int argc, char **argv)
 	int					i;
 	unsigned long long	time;
 
-	g_data.nb = ft_atoi(argv[1]);
-	g_data.time_die = ft_atoi(argv[2]);
-	g_data.time_eat = ft_atoi(argv[3]);
-	g_data.time_sleep = ft_atoi(argv[4]);
-	if (init_sem() == 0)
+	if (init_parse(argc, argv) == 0 || init_sem() == 0)
 		return (0);
-	if (argc == 6)
-		g_data.must_eat = ft_atoi(argv[5]);
 	if ((g_data.philo = malloc(sizeof(t_philo) * g_data.nb)) == NULL)
 		return (0);
 	g_data.state++;

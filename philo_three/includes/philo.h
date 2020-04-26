@@ -18,9 +18,9 @@
 # include <stdlib.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <signal.h>
-
-# include <stdio.h>
+# include <fcntl.h>
 
 # include "philo_tp.h"
 
@@ -33,5 +33,6 @@ unsigned long long	gettime();
 void				ft_putnbr(unsigned long long n);
 void				msg(unsigned long long time, int act, char *text, int len);
 int					endofprog(void);
+int					ft_str_is_numeric(char *str);
 
 #endif

@@ -12,6 +12,32 @@
 
 #include "philo.h"
 
+void	ft_putnbr(unsigned long long n)
+{
+	char	c;
+
+	if (n < 10)
+	{
+		c = n + '0';
+		write(1, &c, 1);
+	}
+	else
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+}
+
+void	msg(unsigned long long time, int act, char *text, int len)
+{
+	sem_wait(g_data.write);
+	ft_putnbr(time);
+	write(1, " ", 1);
+	ft_putnbr(act + 1);
+	write(1, text, len);
+	sem_post(g_data.write);
+}
+
 int		endofprog(void)
 {
 	if (g_data.state >= 4)
@@ -24,13 +50,11 @@ int		main(int argc, char **argv)
 	int					i;
 
 	g_data.state = 0;
-	if (argc != 5 && argc != 6)
+	if ((argc != 5 && argc != 6) || init(argc, argv) == 0)
 	{
 		write(1, "error\n", 6);
 		return (endofprog());
 	}
-	if (init(argc, argv) == 0)
-		return (endofprog());
 	i = -1;
 	pthread_create(&g_data.thread, NULL,
 		thread, NULL);

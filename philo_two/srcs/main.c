@@ -51,13 +51,11 @@ int		main(int argc, char **argv)
 	int					i;
 
 	g_data.state = 0;
-	if (argc != 5 && argc != 6)
+	if ((argc != 5 && argc != 6) || init(argc, argv) == 0)
 	{
 		write(1, "error\n", 6);
 		return (endofprog());
 	}
-	if (init(argc, argv) == 0)
-		return (endofprog());
 	i = -1;
 	while (++i < g_data.nb)
 		pthread_create(&g_data.philo[i].thread, NULL,

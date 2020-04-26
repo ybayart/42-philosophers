@@ -12,32 +12,6 @@
 
 #include "philo.h"
 
-void	ft_putnbr(unsigned long long n)
-{
-	char	c;
-
-	if (n < 10)
-	{
-		c = n + '0';
-		write(1, &c, 1);
-	}
-	else
-	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
-	}
-}
-
-void	msg(unsigned long long time, int act, char *text, int len)
-{
-	sem_wait(g_data.write);
-	ft_putnbr(time);
-	write(1, " ", 1);
-	ft_putnbr(act + 1);
-	write(1, text, len);
-	sem_post(g_data.write);
-}
-
 void	*thread_do(void *arg)
 {
 	int					act;
@@ -87,10 +61,11 @@ int		check_died(int i)
 	if (g_data.argc == 6 && eat == 1)
 	{
 		endofprog();
-		return (2);
+		sem_post(g_data.write);
+		return (1);
 	}
 	sem_post(g_data.write);
-	return (1);
+	return (2);
 }
 
 void	*thread(void *arg)
@@ -107,22 +82,18 @@ void	*thread(void *arg)
 		{
 			pthread_create(&g_data.thread, NULL, thread_do, (void*)&i);
 			while (1)
-				if ((ret = check_died(i)) != 1)
-				{
-					if (ret != 2)
-						while (--i >= 0)
-							kill(g_data.philo[i].pid, 1);
-					exit(EXIT_SUCCESS);
-					return (0);
-				}
+				if ((ret = check_died(i)) != 2)
+					exit(ret);
 		}
 		else
 			i++;
 	}
 	i = -1;
-	printf("waiting\n");
 	while (++i < g_data.nb)
-		waitpid(g_data.philo[i].pid, NULL, 0);
-	printf("end waiting\n");
+	{
+		waitpid(-1, &ret, 0);
+		if (WEXITSTATUS(ret) == 0)
+			return (0);
+	}
 	return (0);
 }

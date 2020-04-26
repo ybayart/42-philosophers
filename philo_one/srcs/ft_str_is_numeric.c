@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybayart <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/18 16:58:50 by ybayart           #+#    #+#             */
-/*   Updated: 2019/12/18 16:58:51 by ybayart          ###   ########.fr       */
+/*   Created: 2019/08/02 10:41:53 by ybayart           #+#    #+#             */
+/*   Updated: 2019/08/02 10:45:06 by ybayart          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-int					ft_nbrlen(unsigned long int nb)
+int		ft_str_is_numeric(char *str)
 {
 	int		i;
 
-	i = 1;
-	while (nb > 9)
-	{
-		i++;
-		nb /= 10;
-	}
-	return (i);
-}
-
-unsigned long long	gettime(void)
-{
-	struct timeval		time;
-	unsigned long long	ms;
-
-	gettimeofday(&time, NULL);
-	ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (ms);
+	i = -1;
+	while (str[++i] != '\0')
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+	return (1);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybayart <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/18 15:03:34 by ybayart           #+#    #+#             */
-/*   Updated: 2019/12/18 15:03:34 by ybayart          ###   ########.fr       */
+/*   Created: 2019/12/18 16:58:50 by ybayart           #+#    #+#             */
+/*   Updated: 2019/12/18 16:58:51 by ybayart          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,12 @@ int					ft_nbrlen(unsigned long int nb)
 	return (i);
 }
 
-unsigned long int	getms(unsigned long int usec)
-{
-	int					i;
-	int					len;
-
-	len = ft_nbrlen(usec);
-	i = 0;
-	while (len - i > 3)
-	{
-		i++;
-		usec /= 10;
-	}
-	return (usec);
-}
-
 unsigned long long	gettime(void)
 {
 	struct timeval		time;
 	unsigned long long	ms;
 
 	gettimeofday(&time, NULL);
-	ms = time.tv_sec;
-	ms *= 1000;
-	ms += getms(time.tv_usec);
+	ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (ms);
 }

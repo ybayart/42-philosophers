@@ -9,6 +9,7 @@ SRC			=	atoi \
 				main \
 				thread \
 				time \
+				ft_str_is_numeric
 
 SRCS		= $(addprefix ${DIRSRC}, $(addsuffix .c, ${SRC}))
 
@@ -24,12 +25,13 @@ CC			= gcc
 RM			= rm -f
 
 CFLAGS		= -Wall -Wextra -Werror
+LIBFLAGS	= -pthread
 
 .c.o:
 			${CC} ${CFLAGS} -c -I${DIRINC} $< -o ${<:.c=.o}
 
 $(NAME):	${OBJS}
-			${CC} ${CFLAGS} -I ${DIRINC} -o ${NAME} ${OBJS}
+			${CC} ${CFLAGS} -I ${DIRINC} -o ${NAME} ${OBJS} ${LIBFLAGS}
 
 all:		$(NAME)
 

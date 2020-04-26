@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
-# include <stdio.h>
 
 # include "philo_tp.h"
 
@@ -29,5 +28,6 @@ void				*thread(void *arg);
 unsigned long long	gettime(void);
 void				ft_putnbr(unsigned long long n);
 void				msg(unsigned long long time, int act, char *text, int len);
+int					ft_str_is_numeric(char *str);
 
 #endif
