@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 
 void	*thread_do(void *arg)
 {
@@ -28,10 +29,10 @@ void	*thread_do(void *arg)
 	msg(time, act, " is eating\n", 11);
 	usleep(g_data.time_eat * 1000);
 	time = gettime();
-	g_data.philo[act].total_eat += g_data.time_eat;
 	msg(time, act, " is sleeping\n", 13);
 	sem_post(g_data.forks);
 	sem_post(g_data.forks);
+	g_data.philo[act].total_eat += g_data.time_eat;
 	usleep((g_data.time_sleep - (time - g_data.philo[act].last_eat -
 												g_data.time_eat)) * 1000);
 	time = gettime();
